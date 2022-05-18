@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TITOLO</title>
+    <link rel="stylesheet" href="./index.css" />
+</head>
+
+<body>
+    <h1 class="completed">
+        <%= a %>
+    </h1>
+    <h2>
+        <%= b %>
+    </h2>
+    <h3>
+        <%= n %>
+    </h3>
+    <form action="" method="get">
+        <!-- MENU A TENDINA -->
+        <div id="plant_selection">
+            <label for="plant">Select a plant </label>
+            <select type="submit" id="plant " name="plant">
+                <% if (plants.length<1) { %>
+                    <option value="NO PLANTS">NO PLANTS</option>
+                    <% } %>
+                        <% plants.forEach(p=> { %>
+                            <option value="<%= p.id %>">
+                                <%= p.name %>
+                            </option>
+                            <% })%>
+            </select>
+            <input type="submit" value="Choose">
+        </div>
+        <!-- PANNELLI -->
+        <div class="panels">
+            <% let panels=data.reduce((a, c)=>{if (c.object=='panels') a.push(c);return a},[]) %>
+                <ul>
+                    <% for(let i=0; i<panels[0].value.length; i++) { %>
+                        <li>
+                            <span>panel <%= i+1 %>
+                                    <span class="graph_line">
+                                        <% panels.forEach(p=>{%>
+                                            <span id="pan_val">
+                                                <%= p.value[i] %>
+                                            </span>
+                                            <% })%>
+                                    </span>
+                            </span>
+                        </li>
+                        <% } %>
+        </div>
+        </ul>
+        <!-- BATTERIE -->
+        <div class="batteries">
+            <% let bat_vol=data.reduce((a, c)=>{if (c.object=='batteries' && c.type=='voltage') a.push(c);return a},[]) %>
+            <% let bat_tmp=data.reduce((a, c)=>{if (c.object=='batteries' && c.type=='temperature') a.push(c);return a},[]) %>
+            <% let loads=data.reduce((a, c)=>{if (c.object=='batteries' && c.type=='voltage') a.push(c);return a},[]) %>
+                    <ul>
+                        <% for(let i=0; i<bat_vol[0].value.length; i++) { %>
+                            <li>
+                                <span>battery voltage <%= i+1 %>
+                                        <span class="graph_line">
+                                            <% for(let j=0;j<bat_vol.length;j++){%>
+                                                <span  id="pan_val">
+                                                    <%= bat_vol[j].value[i] %>
+                                                </span>
+                                                <% }%>
+                                        </span>
+                                </span>
+                            </li>
+                            <li>
+                                <span>battery temperature <%= i+1 %>
+                                        <span class="graph_line">
+                                            <% for(let j=0;j<bat_tmp.length;j++){%>
+                                                <span  id="pan_val">
+                                                    <%= bat_tmp[j].value[i] %>
+                                                </span>
+                                                <% }%>
+                                        </span>
+                                </span>
+                            </li>
+                            <li>
+                                <span>battery voltage <%= i+1 %>
+                                        <span class="graph_line">
+                                            <% for(let j=0;j<bat_vol.length;j++){%>
+                                                <span  id="pan_val">
+                                                    <%= bat_vol[j].value[i] %>
+                                                </span>
+                                                <% }%>
+                                        </span>
+                                </span>
+                            </li>
+                        <% } %>
+        </div>
+        </ul>
+
+
+        <div class="graph">
+            <div style="--i:10.1">10.00</div>
+            <div style="--i:10.2">20.00</div>
+            <div style="--i:10.3">30.00</div>
+            <div style="--i:10.4">40.00</div>
+            <div style="--i:26.5">50.00</div>
+        </div>
+    </form>
+</body>
+
+</html>

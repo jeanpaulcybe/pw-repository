@@ -3,7 +3,7 @@ var { Client } = require('pg'); // { Pool } vs { Client }
 
 async function GetDbClient() {
     const client = new Client({
-        user: 'pw_auto_data_logger', // 'jp', // 'pw_front_end_reader', //
+        user: 'jp', // 'pw_auto_data_logger', // 'pw_front_end_reader', //
         host: 'localhost',
         database: 'pwdemo',
         password: 'Brigant3',

@@ -5,9 +5,11 @@ var bodyParser = require('body-parser');
 const axios = require('axios');
 
 let host = "localhost";
-let port = "3000";
+let port = 4000;
 var url;// = `http://${host}:${port}/status`;
 let commands = ["panels", "batteries", "loads"];
+
+let dataLogFreqSecs = 1; 
 
 var plants = [];
 var selectedStationId;// = 0;
@@ -41,22 +43,22 @@ async function datalogPanels() {
     let item = 'panels';
     result = await getData(item);
     // console.log(result.data.reduce((acc, cur) => { acc.push(cur.voltage); return acc; }, []));
-    provider.SetData(result.time, plants[selectedStationId].id, `'${item}'`, 'voltage', result.data.reduce((acc, cur) => { acc.push(cur.voltage); return acc; }, []));
+    provider.SetData(result.time, plants[selectedStationId].id, `${item}`, 'voltage', result.data.reduce((acc, cur) => { acc.push(cur.voltage); return acc; }, []));
 }
 
 async function datalogBatteries() {
     let item = 'batteries';
     result = await getData(item);
     // console.log(result.data.reduce((acc, cur) => { acc.push(cur.voltage); return acc; }, []));
-    provider.SetData(result.time, plants[selectedStationId].id, `'${item}'`, 'voltage', result.data.reduce((acc, cur) => { acc.push(cur.voltage); return acc; }, []));
-    provider.SetData(result.time, plants[selectedStationId].id, `'${item}'`, 'temperature', result.data.reduce((acc, cur) => { acc.push(cur.temperature); return acc; }, []));
+    provider.SetData(result.time, plants[selectedStationId].id, item, 'voltage', result.data.reduce((acc, cur) => { acc.push(cur.voltage); return acc; }, []));
+    provider.SetData(result.time, plants[selectedStationId].id, item, 'temperature', result.data.reduce((acc, cur) => { acc.push(cur.temperature); return acc; }, []));
 }
 
 async function datalogLoad() {
     let item = 'loads';
     result = await getData(item);
     // console.log(item, result.data.outputLoad);
-    provider.SetData(result.time, plants[selectedStationId].id, `'${item}'`, 'outputLoad', [result.data.outputLoad]);
+    provider.SetData(result.time, plants[selectedStationId].id, item, 'outputLoad', [result.data.outputLoad]);
 }
 
 async function datalog() {
@@ -91,7 +93,8 @@ async function setup() {
 
 setup();
 provider.DeleteAll();
-setInterval(cicleStations, 5000);
+cicleStations();
+setInterval(cicleStations, dataLogFreqSecs*1000);
 
 async function prova() {
     // let last = await provider.GetLastIstant();
